@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    networks:
+      - app-network
+    volumes:
+      - .:/app
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database
+    networks:
+      - app-network
+    volumes:
+      - db-data:/var/lib/mysql
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
